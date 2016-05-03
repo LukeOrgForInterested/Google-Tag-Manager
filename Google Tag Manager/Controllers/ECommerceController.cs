@@ -48,6 +48,7 @@ namespace Google_Tag_Manager.Controllers
                 Quantity = 3
             });
 
+            Session["Transactions"] = tran;
             return View(tran);
         }
 
@@ -60,9 +61,42 @@ namespace Google_Tag_Manager.Controllers
 
 
         [HttpGet]
-        public ActionResult Impressions()
+        public ActionResult Products()
+        {
+            var trans = (Transaction)Session["Transactions"];
+            var products = trans.TransactionProducts.Select(
+              (p, i) => new EnhancedProduct
+              {
+                  Id = $"P{DateTime.Now.Year}-{i + 1}",
+                  Brand = "Google",
+                  Category = p.Category,
+                  Coupon = $"SUMMER_SALE{i + 1}",
+                  Name = p.Name,
+                  Price = p.Price,
+                  Variant = $"Color{i + 1}",
+                  Quantity = p.Quantity,
+                  Position = i + 1
+              }).ToList();
+
+            Session["EnhancedProduct"] = products;
+            return View(products);
+        }
+
+        [HttpGet]
+        public ActionResult ProductClick(string id)
+        {
+            var products = (List<EnhancedProduct>)Session["EnhancedProduct"];
+            var theProduct = products.Single(x => x.Id == id);
+            return View(theProduct);
+        }
+
+        [HttpGet]
+        public ActionResult AddToCard()
         {
             return new EmptyResult();
         }
+
+
+
     }
 }

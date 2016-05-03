@@ -1,4 +1,6 @@
-﻿@model Google_Tag_Manager.Models.Transaction
+﻿@using Google_Tag_Manager.Models
+
+@model Google_Tag_Manager.Models.Transaction
 
 @{
     ViewBag.Title = "Standard";
@@ -47,18 +49,18 @@
             </div>
         </div>
 
-        @Html.Partial("_Products", Model.TransactionProducts)
+        @Html.Partial("_ProductsPartial", Model.TransactionProducts)
 
-        <div class="form-group">
+        @*<div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" id="Submission" />
             </div>
-        </div>
+        </div>*@
     </div>
 }
 
 <div>
-    @* @Html.ActionLink("Back to List", "Index")*@
+    @Html.ActionLink("Go to Enhanced ECommerce", "Products", "ECommerce")
 </div>
 
 @section Scripts {
@@ -68,7 +70,7 @@
 @section Body{
     <script>
         window.dataLayer = window.dataLayer || [];
-        var trans = $.parseJSON('@Html.Raw(Model.ToJson())');
+        var trans = $.parseJSON('@Html.Raw(Model.ToJsonString())');
         dataLayer.push(trans);
     </script>
     <!-- Google Tag Manager -->
