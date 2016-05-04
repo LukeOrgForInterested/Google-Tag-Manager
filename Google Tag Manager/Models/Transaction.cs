@@ -154,6 +154,7 @@ namespace Google_Tag_Manager.Models
                     CurrencyCode = "USD",
                     Add = new
                     {
+                        ActionField = new { List = $"Search Results{product.Position}" },
                         Products = new List<EnhancedProduct> { product }
                     }
                 },
@@ -172,6 +173,7 @@ namespace Google_Tag_Manager.Models
                     CurrencyCode = "USD",
                     Remove = new
                     {
+                        ActionField = new { List = $"Search Results{product.Position}" },
                         Products = new List<EnhancedProduct> { product }
                     }
                 },
