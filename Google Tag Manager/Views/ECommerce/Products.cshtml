@@ -41,9 +41,10 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr id="123" data-product='@Html.Raw(item.Click())' data-addToCart='@Html.Raw(item.AddToCart())' data-removeFromCart='@Html.Raw(item.RemoveFromCart())'>
             <td>
-                @Html.ActionLink(item.Name, "ProductClick", new { id = item.Id })
+
+                @Html.ActionLink(item.Name, "ProductClick", new { id = item.Id }, new { @class = "product" })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Brand)
@@ -67,7 +68,8 @@
                 @Html.DisplayFor(modelItem => item.Position)
             </td>
             <td>
-                @Html.ActionLink("Add to Cart", "AddToCard", new { id = item.Id })
+                @Html.ActionLink("Add To Cart", "AddToCart", new { id = item.Id }, new { @class = "addToCart" }) |
+                @Html.ActionLink("Remove From Cart", "AddToCart", new { id = item.Id }, new { @class = "removeFromCart" })
             </td>
         </tr>
     }
@@ -95,4 +97,40 @@
             '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-57P5M5');</script>
     <!-- End Google Tag Manager -->
+}
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('a.product').click(function () {
+                var $this = $(this);
+                var data = $this.parents('tr').data('product');
+                data.eventCallback = function () {
+                    document.location = $this.attr('href');
+                }
+                dataLayer.push(data);
+                return false;
+            });
+
+            $('a.addToCart').click(function () {
+                var $this = $(this);
+                var data = $this.parents('tr').data('addtocart');
+                data.eventCallback = function () {
+                    alert('Add Done');
+                }
+                dataLayer.push(data);
+                return false;
+            });
+
+            $('a.removeFromCart').click(function () {
+                var $this = $(this);
+                var data = $this.parents('tr').data('removefromcart');
+                data.eventCallback = function () {
+                    alert('Remove Done');
+                }
+                dataLayer.push(data);
+                return false;
+            });
+        })
+    </script>
+
 }

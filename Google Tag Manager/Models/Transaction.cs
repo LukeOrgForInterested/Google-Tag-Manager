@@ -125,20 +125,59 @@ namespace Google_Tag_Manager.Models
             return data.ToJsonString();
         }
 
-        public static void Clicks()
+        public static string Click(this EnhancedProduct product)
         {
-            var t = new
+            var data = new
             {
                 Event = "productClick",
                 Ecommerce = new
                 {
                     Click = new
                     {
-                        ActionField = new { },
-                        Products = new List<EnhancedProduct>()
+                        ActionField = new { List = $"Search Results{product.Position}" },
+                        Products = new List<EnhancedProduct> { product }
                     }
-                }
+                },
+                EventCallBack = string.Empty
             };
+
+            return data.ToJsonString();
+        }
+
+        public static string AddToCart(this EnhancedProduct product)
+        {
+            var data = new
+            {
+                Event = "addToCart",
+                Ecommerce = new
+                {
+                    CurrencyCode = "USD",
+                    Add = new
+                    {
+                        Products = new List<EnhancedProduct> { product }
+                    }
+                },
+            };
+
+            return data.ToJsonString();
+        }
+
+        public static string RemoveFromCart(this EnhancedProduct product)
+        {
+            var data = new
+            {
+                Event = "removeFromCart",
+                Ecommerce = new
+                {
+                    CurrencyCode = "USD",
+                    Remove = new
+                    {
+                        Products = new List<EnhancedProduct> { product }
+                    }
+                },
+            };
+
+            return data.ToJsonString();
         }
 
         public static string ToJsonString(this object source)

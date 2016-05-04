@@ -91,7 +91,7 @@ namespace Google_Tag_Manager.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddToCard()
+        public ActionResult AddToCart()
         {
             return new EmptyResult();
         }
